@@ -7,7 +7,30 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-@page { size: A4; margin:0; }
+  .debug .field { outline: 1px dashed rgba(255,0,0,.6); }
+.debug .check { outline: 1px dashed rgba(0,0,255,.6); }
+  :root{
+    /* عدلي الأرقام هنا فقط */
+    --field-dx: 0mm;  /* يمين + / يسار - */
+    --field-dy: 0mm;  /* أسفل + / أعلى - */
+    --check-dx: -3mm; /* يمين + / يسار -  (ابدئي بهذا) */
+    --check-dy: -1mm; /* أسفل + / أعلى - (ابدئي بهذا) */
+  }
+
+  .field{
+    transform: translate(var(--field-dx), var(--field-dy));
+  }
+  .check{
+    transform: translate(var(--check-dx), var(--check-dy));
+  }
+
+  /* تحسين شكل date حتى لا “ينزلق” */
+  input[type="date"]{
+    direction:ltr;
+    padding-left: 6mm;
+  }
+
+  @page { size: A4; margin:0; }
 
 html,body{
   margin:0;
@@ -83,7 +106,7 @@ button:hover{ background:#0f7a3a; }
 </head>
 
 <body>
-
+<body class="debug">
 <div id="sheet">
 <img src="form-bg.png">
 
@@ -175,3 +198,4 @@ function savePDF(){
 
 </body>
 </html>
+
