@@ -1,208 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>استمارة ترشيح موظف</title>
+<meta charset="utf-8">
+<title>استمارة الترشيح</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-@page {
-  size: A4;
-  margin: 0;
-}
+@page { size: A4; margin:0; }
 
-body{
+html,body{
   margin:0;
-  font-family: "Traditional Arabic", Arial;
-  background:#ffffff;
+  padding:0;
+  background:#fff;
+  font-family:"Traditional Arabic", Arial;
 }
 
-#form-page{
+/* ورقة A4 */
+#sheet{
   width:210mm;
   height:297mm;
-  margin:auto;
-  background:linear-gradient(#8fb4cf,#7ea6c4);
-  padding:25mm 20mm;
-  box-sizing:border-box;
   position:relative;
+  overflow:hidden;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
-header img{
-  width:100%;
+/* الخلفية */
+#sheet img{
+  position:absolute;
+  width:210mm;
+  height:297mm;
+  inset:0;
+  object-fit:cover;
+  pointer-events:none;
 }
 
-h2{
-  text-align:center;
-  margin:15px 0 25px;
-  font-size:26px;
-  font-weight:bold;
-}
-
-.section-title{
-  font-weight:bold;
-  margin:15px 0 8px;
-}
-
-.input-box{
-  background:#eaeaea;
-  border-radius:8px;
-  padding:8px;
-  margin-bottom:12px;
-}
-
-input[type="text"],
-input[type="date"],
-textarea{
-  width:100%;
-  border:none;
+/* الحقول */
+.field, .check{
+  position:absolute;
   background:transparent;
-  font-size:16px;
+  border:none;
   outline:none;
+  font-size:15px;
+  box-sizing:border-box;
 }
 
-.row{
-  display:flex;
-  gap:15px;
+.field{
+  padding:3mm;
 }
 
-.half{
-  flex:1;
-}
-
-.option-group{
-  display:flex;
-  gap:30px;
-  align-items:center;
-  margin:10px 0;
-}
-
-.option-group label{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-weight:bold;
-}
-
-textarea{
-  height:80px;
+textarea.field{
   resize:none;
 }
 
-.bottom-row{
-  display:flex;
-  justify-content:space-between;
-  margin-top:20px;
+/* مربعات اختيار */
+.check{
+  width:5mm;
+  height:5mm;
+  accent-color:#000;
 }
 
-.stamp-box{
-  background:#eaeaea;
-  height:60px;
-  border-radius:8px;
-}
-
+/* أزرار */
 .actions{
   text-align:center;
-  margin:20px;
+  margin:15px 0;
 }
 
 button{
   padding:10px 20px;
-  background:#003366;
+  background:#0b2a57;
   color:#fff;
   border:none;
   cursor:pointer;
 }
-
-button:hover{
-  background:#008000;
-}
+button:hover{ background:#0f7a3a; }
 
 @media print{
-  .actions{display:none;}
-  body{background:none;}
+  .actions{ display:none; }
 }
 </style>
 </head>
 
 <body>
 
-<div id="form-page">
+<div id="sheet">
+<img src="form-bg.png">
 
-<header>
-<img src="your-image.png">
-</header>
+<!-- اسم الموظف -->
+<input class="field" style="top:84mm; right:20mm; width:170mm; height:12mm;">
 
-<h2>استمارة ترشيح موظف لحوافز الإجادة المؤسسية</h2>
+<!-- المسمى الوظيفي -->
+<input class="field" style="top:100mm; right:20mm; width:170mm; height:12mm;">
 
-<div class="section-title">البيانات الوظيفية</div>
+<!-- الرقم المدني -->
+<input class="field" style="top:116mm; right:20mm; width:82mm; height:12mm;">
 
-<div class="input-box">اسم الموظف:
-<input type="text"></div>
+<!-- الرقم الوظيفي -->
+<input class="field" style="top:116mm; right:108mm; width:82mm; height:12mm;">
 
-<div class="input-box">المسمى الوظيفي:
-<input type="text"></div>
+<!-- التقسيم التنظيمي -->
+<input class="field" style="top:132mm; right:20mm; width:170mm; height:12mm;">
 
-<div class="row">
-<div class="half input-box">الرقم المدني:
-<input type="text"></div>
+<!-- تاريخ الترشيح -->
+<input class="field" type="date" style="top:148mm; right:20mm; width:170mm; height:12mm;">
 
-<div class="half input-box">الرقم الوظيفي:
-<input type="text"></div>
-</div>
+<!-- موظف الشهر -->
+<input class="check" type="checkbox" data-group="path" style="top:167mm; right:116mm;">
 
-<div class="input-box">التقسيم التنظيمي:
-<input type="text"></div>
+<!-- الموظف المبادر -->
+<input class="check" type="checkbox" data-group="path" style="top:167mm; right:46mm;">
 
-<div class="input-box">تاريخ الترشيح:
-<input type="date"></div>
+<!-- نتيجة الأداء -->
+<input class="field" style="top:180mm; right:90mm; width:100mm; height:12mm;">
 
-<div class="section-title">الترشيح لمسار تكريم</div>
+<!-- نعم -->
+<input class="check" type="checkbox" data-group="other" style="top:196mm; right:52mm;">
 
-<div class="option-group">
-<label><input type="checkbox"> موظف الشهر</label>
-<label><input type="checkbox"> الموظف المبادر</label>
-</div>
+<!-- لا -->
+<input class="check" type="checkbox" data-group="other" style="top:196mm; right:96mm;">
 
-<div class="input-box">نتيجة الأداء الوظيفي لعام 2024م:
-<input type="text"></div>
+<!-- مبررات الترشيح -->
+<textarea class="field" style="top:214mm; right:20mm; width:170mm; height:36mm;"></textarea>
 
-<div class="section-title">هل تم ترشيح الموظف لأي مسار تكريم آخر</div>
+<!-- اسم المسؤول المباشر -->
+<input class="field" style="top:256mm; right:20mm; width:170mm; height:12mm;">
 
-<div class="option-group">
-<label><input type="checkbox"> نعم</label>
-<label><input type="checkbox"> لا</label>
-</div>
+<!-- موافق -->
+<input class="check" type="checkbox" data-group="approve" style="top:274mm; right:96mm;">
 
-<div class="section-title">مبررات الترشيح</div>
+<!-- غير موافق -->
+<input class="check" type="checkbox" data-group="approve" style="top:274mm; right:52mm;">
 
-<div class="input-box">
-<textarea></textarea>
-</div>
+<!-- اعتماد المسؤول الأعلى -->
+<input class="field" style="top:286mm; right:108mm; width:82mm; height:10mm;">
 
-<div class="input-box">
-اسم وتوقيع المسؤول المباشر:
-<input type="text">
-</div>
-
-<div class="section-title">الموافقة على ترشيح الموظف</div>
-
-<div class="option-group">
-<label><input type="checkbox"> موافق</label>
-<label><input type="checkbox"> غير موافق</label>
-</div>
-
-<div class="bottom-row">
-<div style="width:48%;">
-اعتماد المسؤول الأعلى
-<div class="stamp-box"></div>
-</div>
-
-<div style="width:48%;">
-الختم
-<div class="stamp-box"></div>
-</div>
-</div>
+<!-- الختم -->
+<input class="field" style="top:286mm; right:20mm; width:82mm; height:10mm;">
 
 </div>
 
@@ -212,15 +146,30 @@ button:hover{
 </div>
 
 <script>
+// اختيار واحد فقط لكل مجموعة
+document.querySelectorAll('.check').forEach(cb=>{
+  cb.addEventListener('change', ()=>{
+    if(!cb.checked) return;
+    const group = cb.dataset.group;
+    document.querySelectorAll(`.check[data-group="${group}"]`).forEach(x=>{
+      if(x!==cb) x.checked=false;
+    });
+  });
+});
+
 function savePDF(){
-  const element = document.getElementById("form-page");
-  const opt = {
-    margin: 0,
-    filename: 'استمارة_الترشيح.pdf',
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
-  html2pdf().set(opt).from(element).save();
+  const element=document.getElementById("sheet");
+  html2pdf().set({
+    margin:0,
+    filename:"استمارة_الترشيح.pdf",
+    html2canvas:{
+      scale:3,
+      useCORS:true,
+      backgroundColor:"#ffffff"
+    },
+    jsPDF:{ unit:"mm", format:"a4", orientation:"portrait" },
+    pagebreak:{ mode:["avoid-all"] }
+  }).from(element).save();
 }
 </script>
 
